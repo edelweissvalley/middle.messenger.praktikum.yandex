@@ -1,0 +1,39 @@
+.chats {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.chats-col {
+  display: flex;
+  flex-direction: column;
+  width: 310px;
+  flex-shrink: 0;
+  background: #fbfbfb;
+  border-right: 1px solid #eaeaea;
+}
+
+.chats__go-personal-container {
+  display: flex;
+  justify-content: right;
+  margin-top: 21px;
+}
+
+.chats__go-personal {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+  text-decoration: none;
+  color: #999;
+  position: relative;
+  display: inline-flex;
+  margin-right: 10px;
+}
+
+.chats__go-personal::after {
+  content: ">";
+  font-weight: bold;
+  font-size: 13px;
+  margin-left: 10px;
+  padding-top: 1px;
+}

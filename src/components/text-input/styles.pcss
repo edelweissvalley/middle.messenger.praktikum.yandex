@@ -1,0 +1,34 @@
+.small-form__input-parent {
+  position: relative;
+  padding-top: 10px;
+}
+
+.small-form__input-parent + .small-form__input-parent {
+  margin-top: 15px;
+}
+
+.small-form__input {
+  border: none;
+  width: 100%;
+  height: 33px;
+  border-bottom: 1px solid #3369f3;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 13px;
+  color: var(--main-text);
+  display: block;
+}
+
+.small-form__input-title {
+  position: absolute;
+  top: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 9px;
+  line-height: 9px;
+  color: #999;
+}
+
+.small-form__input:placeholder-shown + .small-form__input-title {
+  display: none;
+}
