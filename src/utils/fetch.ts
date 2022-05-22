@@ -14,10 +14,10 @@ function queryStringify(data: Document | { [key: string]: string }): string {
 }
 
 interface RequestOptions {
-  timeout: number;
-  headers: { [key: string]: string };
-  method: Methods;
-  data: Document | null;
+  timeout?: number;
+  headers?: Record<string, string>;
+  method?: Methods;
+  data?: Document | null;
 }
 
 export class Fetch {
@@ -52,9 +52,11 @@ export class Fetch {
           : url,
       );
 
-      Object.keys(headers).forEach((key) => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
+      if (headers) {
+        Object.keys(headers).forEach((key) => {
+          xhr.setRequestHeader(key, headers[key]);
+        });
+      }
 
       xhr.onload = (): void => {
         resolve(xhr);

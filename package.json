@@ -8,6 +8,7 @@
     "build-server": "parcel build src/index.html --no-cache && node server.js",
     "eslint": "eslint --ext .ts,.tsx src",
     "stylelint": "stylelint src/**/*.pcss",
+    "typescript": "tsc -p ./ --noEmit",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -15,7 +16,8 @@
       "stylelint --config .stylelintrc.json"
     ],
     "*.{ts,tsx,js}": [
-      "npm run eslint"
+      "npm run eslint",
+      "bash -c 'npm run typescript'"
     ]
   },
   "repository": {
@@ -29,28 +31,29 @@
   },
   "homepage": "https://github.com/yandex-praktikum/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
-    "@parcel/transformer-typescript-tsc": "2.5.0",
-    "@typescript-eslint/eslint-plugin": "5.25.0",
-    "@typescript-eslint/parser": "5.25.0",
-    "eslint": "8.15.0",
+    "@parcel/transformer-typescript-tsc": "2.6.0",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "eslint": "^8.17.0",
     "eslint-import-resolver-typescript": "2.7.1",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-promise": "6.0.0",
     "eslint-plugin-sonarjs": "0.13.0",
     "express": "4.18.1",
     "husky": "8.0.1",
-    "lint-staged": "12.4.1",
-    "parcel": "2.5.0",
-    "stylelint": "14.8.2",
-    "stylelint-config-standard": "25.0.0",
-    "typescript": "4.6.4"
-  },
-  "engines": {
-    "node": ">=16.13.0",
-    "npm": ">=8.1.2"
+    "lint-staged": "^13.0.1",
+    "parcel": "2.6.0",
+    "stylelint": "^14.9.0",
+    "stylelint-config-standard": "^26.0.0",
+    "typescript": "^4.7.3"
   },
   "dependencies": {
     "handlebars": "4.7.7",
-    "normalize.css": "8.0.1"
+    "normalize.css": "8.0.1",
+    "uuid": "^8.3.2"
+  },
+  "alias": {
+    "src": "./src"
   }
 }

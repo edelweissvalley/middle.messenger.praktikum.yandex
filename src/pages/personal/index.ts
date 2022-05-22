@@ -1,10 +1,10 @@
 // language=hbs
+import { Component } from 'src/utils/Component';
 import './styles.pcss';
-import { Block } from '../../utils/Block';
 
-export class Personal extends Block {
-  render(): string {
-    return `
+export class Personal extends Component {
+  render(): DocumentFragment {
+    return this.compile(`
       <section class="root-personal">
         <a href="/chats" title="Назад к чатам" class="personal__back-to-chats"></a>
         <div class="personal">
@@ -51,6 +51,6 @@ export class Personal extends Block {
           </div>
         </div>
       </section>
-    `;
+    `);
   }
 }
