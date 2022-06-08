@@ -5,29 +5,33 @@ enum Methods {
   delete = 'DELETE',
 }
 
-function queryStringify(data: Document | { [key: string]: string }): string {
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
-  }
-
-  return '?' + Object.keys(data).map(key => `${key}=${(data as { [key: string]: string })[key]}`).join('&');
-}
-
 interface RequestOptions {
   timeout?: number;
   headers?: Record<string, string>;
   method?: Methods;
-  data?: Document | null;
+  data?: Document | XMLHttpRequestBodyInit | null;
+  withCredentials?: boolean;
+  responseType?: string;
 }
 
 export class Fetch {
+  static #instance: Fetch;
+
+  constructor() {
+    if (Fetch.#instance) {
+      return Fetch.#instance;
+    }
+
+    Fetch.#instance = this;
+  }
+
   public get = this.#method(Methods.get);
   public post = this.#method(Methods.post);
   public put = this.#method(Methods.put);
   public delete = this.#method(Methods.delete);
 
-  #method(method: Methods): (url: string, options: RequestOptions) => Promise<XMLHttpRequest> {
-    return (url: string, options: RequestOptions): Promise<XMLHttpRequest> => {
+  #method(method: Methods): (url: string, options?: RequestOptions) => Promise<XMLHttpRequest> {
+    return (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
       return this.#request(url, { ...options, method }, options.timeout);
     };
   }
@@ -37,20 +41,12 @@ export class Fetch {
 
     return new Promise((resolve, reject) => {
       if (!method) {
-        reject('No method');
-
-        return;
+        return reject('No method');
       }
 
       const xhr = new XMLHttpRequest();
-      const isGet = method === Methods.get;
 
-      xhr.open(
-        method,
-        isGet && !!data
-          ? `${url}${queryStringify(data)}`
-          : url,
-      );
+      xhr.open(method, url);
 
       if (headers) {
         Object.keys(headers).forEach((key) => {
@@ -62,17 +58,13 @@ export class Fetch {
         resolve(xhr);
       };
 
+      xhr.withCredentials = true;
+      xhr.responseType = 'json';
       xhr.onabort = reject;
       xhr.onerror = reject;
-
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
-
-      if (isGet || !data) {
-        xhr.send();
-      } else {
-        xhr.send(data);
-      }
+      xhr.send(data);
     });
   };
 }
