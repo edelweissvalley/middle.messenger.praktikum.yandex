@@ -25,6 +25,8 @@
     "sonarjs"
   ],
   "rules": {
+    "@typescript-eslint/no-unsafe-assignment": 0,
+    "@typescript-eslint/no-unsafe-member-access": 0,
     "comma-dangle": [
       "error",
       {
@@ -128,7 +130,8 @@
     "semi": [
       "error",
       "always"
-    ]
+    ],
+    "@typescript-eslint/no-misused-promises": 0
   },
   "settings": {
     "import/resolver": {

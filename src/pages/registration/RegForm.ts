@@ -1,6 +1,7 @@
 // language=hbs
 import { IEmpty } from 'src/components/Empty';
 import { Input } from 'src/components/Input';
+import { Link } from 'src/components/Link';
 import { Component, TEvents } from 'src/utils/Component';
 import { IValidationSchema, setValidationSchema } from 'src/utils/validation';
 import { checkLogin, checkMail, checkPassword, checkPasswordRepeat } from 'src/utils/validationRules';
@@ -11,11 +12,12 @@ interface IRegForm {
   email?: Input;
   login?: Input;
   first_name?: Input;
-  last_name?: Input;
+  second_name?: Input;
   phone?: Input;
   password?: Input;
   password_repeat?: Input;
   submitButton?: Component<IEmpty>;
+  authLink?: Link;
 }
 
 export class RegForm extends Component<IRegForm> {
@@ -36,7 +38,7 @@ export class RegForm extends Component<IRegForm> {
       rules: [],
       eventNames: ['blur', 'focus'],
     },
-    last_name: {
+    second_name: {
       rules: [],
       eventNames: ['blur', 'focus'],
     },
@@ -48,7 +50,7 @@ export class RegForm extends Component<IRegForm> {
       rules: [checkPassword, checkPasswordRepeat],
       eventNames: ['blur', 'focus'],
     },
-};
+  };
 
   constructor(tagName: keyof HTMLElementTagNameMap | undefined, props: IRegForm) {
     super(tagName, props);
@@ -62,7 +64,7 @@ export class RegForm extends Component<IRegForm> {
         {{{email}}}
         {{{login}}}
         {{{first_name}}}
-        {{{last_name}}}
+        {{{second_name}}}
         {{{phone}}}
         {{{password}}}
         {{{password_repeat}}}
@@ -70,7 +72,7 @@ export class RegForm extends Component<IRegForm> {
       <div class="small-form__row">
         {{{submitButton}}}
         <div class="small-link-parent">
-          <a href="/auth" class="small-link">Войти</a>
+          {{{authLink}}}
         </div>
       </div>
     `);

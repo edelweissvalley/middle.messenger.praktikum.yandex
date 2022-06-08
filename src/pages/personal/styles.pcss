@@ -39,6 +39,14 @@
   background: url("./no-photo.svg") center no-repeat, #efefef;
   border-radius: 50%;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.personal__photo img {
+  object-fit: contain;
+  max-height: 100%;
 }
 
 .personal__name {
@@ -72,6 +80,9 @@
   font-size: 13px;
   line-height: 13px;
   color: #1e1e1e;
+  border: none;
+  background: none;
+  padding: 0;
 }
 
 .personal__form-input {
@@ -86,6 +97,10 @@
   color: #999;
 }
 
+.personal__form-input::placeholder {
+  color: #cfcdcd;
+}
+
 .personal-functions {
   margin-top: 60px;
 }
@@ -98,9 +113,17 @@
 .personal__form-title--alert {
   cursor: pointer;
   color: #f00;
+  border: none;
+  background: none;
+  padding: 0;
 }
 
 .personal__form-submit {
-  margin: 60px auto 0;
+  margin: 0 auto;
   display: block;
+}
+
+.personal__form-submit-container {
+  margin-top: 60px;
+  height: 37px;
 }

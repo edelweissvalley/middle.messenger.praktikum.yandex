@@ -1,56 +1,228 @@
 // language=hbs
+import { Empty, EmptyInput } from 'src/components/Empty';
+import { Input, smallFormInputClassName } from 'src/components/Input';
+import { Link } from 'src/components/Link';
+import { authController } from 'src/controllers/Auth.controller';
+import { userController } from 'src/controllers/User.controller';
+import { Avatar } from 'src/pages/personal/avatar';
+import { ChangeUser } from 'src/pages/personal/ChangeUser';
+import { ModalAvatarConnected } from 'src/pages/personal/ModalAvatar';
+import { AvatarForm } from 'src/pages/personal/ModalAvatar/AvatarForm';
+import { ModalChangePassConnected } from 'src/pages/personal/ModalChangePass';
+import { PassForm } from 'src/pages/personal/ModalChangePass/PassForm';
+import { PersonalConnected } from 'src/pages/personal/Personal';
 import { Component } from 'src/utils/Component';
+import { Paths } from 'src/utils/Router';
+import { store } from 'src/utils/Store';
+
 import './styles.pcss';
 
-export class Personal extends Component {
-  render(): DocumentFragment {
-    return this.compile(`
-      <section class="root-personal">
-        <a href="/chats" title="Назад к чатам" class="personal__back-to-chats"></a>
-        <div class="personal">
-          <div class="personal__photo"></div>
-          <div class="personal__name">Иван Новиков</div>
-          <form class="personal__form">
-            <div class="personal__form-label">
-              <span class="personal__form-title">Почта</span>
-              <input readonly type="text" placeholder="placeholder" class="personal__form-input" value="pochta@yandex.ru" />
-            </div>
-            <div class="personal__form-label">
-              <span class="personal__form-title">Логин</span>
-              <input readonly type="text" placeholder="placeholder" class="personal__form-input" value="ivanivanov" />
-            </div>
-            <div class="personal__form-label">
-              <span class="personal__form-title">Имя</span>
-              <input readonly type="text" placeholder="placeholder" class="personal__form-input" value="Иван" />
-            </div>
-            <div class="personal__form-label">
-              <span class="personal__form-title">Фамилия</span>
-              <input readonly type="text" placeholder="placeholder" class="personal__form-input" value="Иванов" />
-            </div>
-            <div class="personal__form-label">
-              <span class="personal__form-title">Имя</span>
-              <input readonly type="text" placeholder="placeholder" class="personal__form-input" value="в чате Иван" />
-            </div>
-            <div class="personal__form-label">
-              <span class="personal__form-title">Телефон</span>
-              <input readonly type="text" placeholder="placeholder" class="personal__form-input" value="+7 (909) 967 30 30" />
-            </div>
-    <!--        <input type="submit" class="submit-button personal__form-submit" value="Сохранить" />-->
-          </form>
+export function PersonalPage(): Component {
+  return new PersonalConnected(
+    'section',
+    {
+      attrs: {
+        class: '5xx root error__root',
+      },
+      form: new ChangeUser('form', {
+        attrs: { class: 'personal__form' },
+        events: {
+          submit(e: Event): void {
+            e.preventDefault();
+            void userController.update(Object.fromEntries(new FormData(e.target as HTMLFormElement).entries()));
+          },
+        },
+        email: new Input('div', {
+          inputElement: new EmptyInput('input', {
+            attrs: {
+              type: 'text',
+              name: 'email',
+              value: store.getState().user?.email || '',
+              placeholder: 'Почта',
+              class: smallFormInputClassName,
+            },
+          }),
+        }),
+        login: new Input('div', {
+          inputElement: new EmptyInput('input', {
+            attrs: {
+              type: 'text',
+              name: 'login',
+              value: store.getState().user?.login || '',
+              placeholder: 'Логин',
+              class: smallFormInputClassName,
+            },
+          }),
+        }),
+        first_name: new Input('div', {
+          inputElement: new EmptyInput('input', {
+            attrs: {
+              type: 'text',
+              name: 'first_name',
+              value: store.getState().user?.first_name || '',
+              placeholder: 'Имя',
+              class: smallFormInputClassName,
+            },
+          }),
+        }),
+        display_name: new Input('div', {
+          inputElement: new EmptyInput('input', {
+            attrs: {
+              type: 'text',
+              name: 'display_name',
+              value: store.getState().user?.display_name || '',
+              placeholder: 'Имя',
+              class: smallFormInputClassName,
+            },
+          }),
+        }),
+        second_name: new Input('div', {
+          inputElement: new EmptyInput('input', {
+            attrs: {
+              type: 'text',
+              name: 'second_name',
+              value: store.getState().user?.second_name || '',
+              placeholder: 'Фамилия',
+              class: smallFormInputClassName,
+            },
+          }),
+        }),
+        phone: new Input('div', {
+          inputElement: new EmptyInput('input', {
+            attrs: {
+              type: 'text',
+              name: 'phone',
+              value: store.getState().user?.phone || '',
+              placeholder: 'Телефон',
+              class: smallFormInputClassName,
+            },
+          }),
+        }),
 
-          <div class="personal-functions">
-            <div class="personal__form-label">
-              <span class="personal__form-title personal__form-title--blue">Изменить данные</span>
-            </div>
-            <div class="personal__form-label">
-              <span class="personal__form-title personal__form-title--blue">Изменить пароль</span>
-            </div>
-            <div class="personal__form-label">
-              <span class="personal__form-title personal__form-title--alert">Выйти</span>
-            </div>
-          </div>
-        </div>
-      </section>
-    `);
-  }
+      }),
+      backToChatsLink: new Link({
+        text: '',
+        href: Paths.chats,
+        attrs: {
+          class: 'personal__back-to-chats',
+          title: 'Назад к чатам',
+        },
+      }),
+      logOut: new Empty('input', {
+        attrs: {
+          class: 'personal__form-title personal__form-title--alert',
+          type: 'button',
+          value: 'Выйти',
+        },
+        events: {
+          click(): void {
+            void authController.logout();
+          },
+        },
+      }),
+      changePassword: new Empty('input', {
+        attrs: {
+          class: 'personal__form-title personal__form-title--blue',
+          type: 'button',
+          value: 'Изменить пароль',
+        },
+        events: {
+          click(): void {
+            store.set('personal.modalChangePass', true);
+          },
+        },
+      }),
+      avatar: new Avatar(
+        'div',
+        {
+          attrs: {
+            class: 'personal__photo',
+          },
+          events: {
+            click(): void {
+              store.set('personal.modalAvatar', true);
+            },
+          },
+        }
+      ),
+      modalAvatar: new ModalAvatarConnected(
+        'section',
+        {
+          events: {
+            click(e: Event): void {
+              const section = e.target as HTMLDivElement;
+
+              if (section?.classList?.contains('modal__layout')) {
+                store.set('personal.modalAvatar', !store.getState()?.personal?.modalAvatar);
+              }
+            },
+          },
+          form: new AvatarForm(
+            'form',
+            {
+              attrs: {
+                class: 'modal__content modal__content--flex-col',
+                name: 'avatar',
+                enctype: 'multipart/form-data',
+              },
+              events: {
+                submit(e: Event): void {
+                  e.preventDefault();
+                  void userController.updateAvatar(new FormData(e.target as HTMLFormElement));
+                },
+              },
+            }
+          ),
+        }
+      ),
+      modalChangePass: new ModalChangePassConnected(
+        'section',
+        {
+          events: {
+            click(e: Event): void {
+              const section = e.target as HTMLDivElement;
+
+              if (section?.classList?.contains('modal__layout')) {
+                store.set('personal.modalChangePass', false);
+              }
+            },
+          },
+          form: new PassForm('form', {
+            attrs: {
+              name: 'change-pass',
+              class: 'modal__content',
+            },
+            oldPassword: new Input('div', {
+              inputElement: new EmptyInput('input', {
+                attrs: {
+                  type: 'text',
+                  name: 'oldPassword',
+                  placeholder: 'Старый пароль',
+                  class: smallFormInputClassName,
+                },
+              }),
+            }),
+            newPassword: new Input('div', {
+              inputElement: new EmptyInput('input', {
+                attrs: {
+                  type: 'text',
+                  name: 'newPassword',
+                  placeholder: 'Новый пароль',
+                  class: smallFormInputClassName,
+                },
+              }),
+            }),
+            events: {
+              submit(e: Event): void {
+                e.preventDefault();
+                void userController.updatePassword(
+                  Object.fromEntries(new FormData(e.target as HTMLFormElement).entries())
+                );
+              },
+            },
+          }),
+        }
+      ),
+    }
+  );
 }

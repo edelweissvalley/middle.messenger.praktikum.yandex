@@ -20,19 +20,20 @@ export type TProps = {
   attrs?: { [key: string]: string };
 }
 
+export type TagName = keyof HTMLElementTagNameMap;
+
 export class Component<Props extends TProps = Record<string, unknown> & { attrs?: { [key: string]: string } }> {
   readonly #element: HTMLElement;
   readonly props: Props;
-  readonly children: { [key: string]: Component };
+  readonly children: { [key: string]: Component | Component[] };
   readonly #id: string = (v4 as Tv4)();
 
-  eventBus: EventBus;
+  eventBus: EventBus = new EventBus();
 
-  constructor(tagName: keyof HTMLElementTagNameMap = 'div', propsWithChildren: Props = <Props>{}) {
+  constructor(tagName: TagName = 'div', propsWithChildren: Props = <Props>{}) {
     const { children, props } = this.#getChildren(propsWithChildren);
     this.children = children;
     this.props = this.#makePropsProxy(props);
-    this.eventBus = new EventBus();
     this.#element = this.#createDocumentElement(tagName);
 
     this.eventBus.on(Events.flowCSU, this.#componentShouldUpdate.bind(this));
@@ -49,7 +50,13 @@ export class Component<Props extends TProps = Record<string, unknown> & { attrs?
     this.componentDidMount();
 
     Object.values(this.children).forEach((child) => {
-      child.dispatchComponentDidMount();
+      if (Array.isArray(child)) {
+        child.forEach((ch) => {
+          ch.dispatchComponentDidMount();
+        });
+      } else {
+        child.dispatchComponentDidMount();
+      }
     });
   }
 
@@ -84,6 +91,7 @@ export class Component<Props extends TProps = Record<string, unknown> & { attrs?
   public setProps(nextProps: Props): void {
     if (nextProps) {
       Object.assign(this.props, nextProps);
+      this.eventBus.emit(Events.flowCSU);
     }
   }
 
@@ -126,7 +134,7 @@ export class Component<Props extends TProps = Record<string, unknown> & { attrs?
     });
   }
 
-  #createDocumentElement<K extends keyof HTMLElementTagNameMap>(
+  #createDocumentElement<K extends TagName>(
     tagName: K
   ): HTMLElementTagNameMap[K] {
     const element = document.createElement<K>(tagName);
@@ -139,11 +147,11 @@ export class Component<Props extends TProps = Record<string, unknown> & { attrs?
   }
 
   public show(): void {
-    this.#element.style.display = 'block';
+    this.#element.removeAttribute('hidden');
   }
 
   public hide(): void {
-    this.#element.style.display = 'none';
+    this.#element.hidden = true;
   }
 
   #getChildren(
@@ -154,6 +162,8 @@ export class Component<Props extends TProps = Record<string, unknown> & { attrs?
 
     Object.entries(propsWithChildren).forEach(([key, value]) => {
       if (value instanceof Component) {
+        Reflect.set(children, key, value);
+      } else if (Array.isArray(value) && value.every(v => v instanceof Component)) {
         Reflect.set(children, key, value);
       } else {
         Reflect.set(props, key, value);
@@ -167,6 +177,12 @@ export class Component<Props extends TProps = Record<string, unknown> & { attrs?
     const propsAndStubs = { ...props };
 
     Object.entries(this.children).forEach(([key, child]) => {
+      if (Array.isArray(child)) {
+        Reflect.set(propsAndStubs, key, child.map(ch => `<div data-id="${ch.#id}"></div>`));
+
+        return;
+      }
+
       Reflect.set(propsAndStubs, key, `<div data-id="${child.#id}"></div>`);
     });
 
@@ -175,8 +191,15 @@ export class Component<Props extends TProps = Record<string, unknown> & { attrs?
     fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
 
     Object.values(this.children).forEach((child) => {
-      const stub = fragment.content.querySelector(`[data-id="${child.#id}"]`);
-      stub?.replaceWith(child.#element);
+      if (Array.isArray(child)) {
+        child.forEach((ch) => {
+          const stub = fragment.content.querySelector(`[data-id="${ch.#id}"]`);
+          stub?.replaceWith(ch.#element);
+        });
+      } else {
+        const stub = fragment.content.querySelector(`[data-id="${child.#id}"]`);
+        stub?.replaceWith(child.#element);
+      }
     });
 
     return fragment.content;

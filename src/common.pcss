@@ -34,4 +34,43 @@
   font-size: 11px;
   line-height: 11px;
   color: var(--blue-bg);
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.modal__layout {
+  background: rgb(0 0 0 / 40%);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 11;
+}
+
+.modal__header {
+  text-align: center;
+  color: #1e1e1e;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.modal__content {
+  width: 340px;
+  min-height: 257px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px 30px;
+  box-shadow: 0 0 6px rgb(0 0 0 / 14%);
+}
+
+.modal__content--flex-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
