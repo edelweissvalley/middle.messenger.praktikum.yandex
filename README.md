@@ -1,6 +1,6 @@
 ### [Ссылка на Pull Request 'sprint_2'](https://github.com/edelweissvalley/middle.messenger.praktikum.yandex/pull/3)
 ### [Ссылка на figma](https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/Chat?node-id=0%3A1)
-### [Netlify](https://confident-euler-7e925a.netlify.app)
+### [Ссылка на Netlify](https://confident-euler-7e925a.netlify.app)
 
 ##Описание
 Прототип на популярные мессенджеры
@@ -20,3 +20,4 @@
 - `/chats` - список чатов с детализацией
 - `/personal` - личные данные
 - `/registration` - регистрация пользователя
+
