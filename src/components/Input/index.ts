@@ -8,9 +8,9 @@ import './styles.pcss';
 interface IProps extends TProps {
   name?: string;
   placeholder?: string;
-  inputElement?: EmptyInput;
+  inputElement: EmptyInput;
   validationSchema?: IValidationSchema;
-  attrs?: { [key: string]: string; placeholder: string; };
+  attrs?: { [key: string]: string; };
 }
 
 export class Input extends Component<IProps> {
@@ -36,6 +36,8 @@ export class Input extends Component<IProps> {
         </div>
       `,
       {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         placeholder: this.children.inputElement.props.attrs?.placeholder,
         inputElement: this.props.inputElement,
       }

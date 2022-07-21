@@ -1,8 +1,7 @@
+import { Component } from 'src/utils/Component';
+
 export function renderDOM(
-  block: {
-    content: Node;
-    dispatchComponentDidMount: () => void;
-  },
+  block: Component,
   query = 'body',
 ): Element | null {
   const root: Element | null = document.querySelector(query);
