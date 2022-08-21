@@ -11,11 +11,12 @@
   flex-shrink: 0;
   background: #fbfbfb;
   border-right: 1px solid #eaeaea;
+  z-index: 11;
 }
 
 .chats__go-personal-container {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   margin-top: 21px;
 }
 
@@ -28,6 +29,7 @@
   position: relative;
   display: inline-flex;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .chats__go-personal::after {
@@ -36,4 +38,16 @@
   font-size: 13px;
   margin-left: 10px;
   padding-top: 1px;
+}
+
+.create-chat {
+  border: none;
+  background: none;
+  color: #999;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+  text-decoration: none;
 }

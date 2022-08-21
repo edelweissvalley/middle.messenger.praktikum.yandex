@@ -39,18 +39,16 @@
 
 .chats__item {
   display: flex;
+  justify-content: space-between;
   height: 71px;
   padding: 12px 10px;
   border-top: 1px solid #eaeaea;
 }
 
+.chats__item--active,
 .chats__item:hover {
   cursor: pointer;
   background: #e4edfd;
-}
-
-.chats__item:last-child {
-  border-bottom: 1px solid #eaeaea;
 }
 
 .chats__photo {
@@ -60,6 +58,7 @@
   margin-right: 10px;
   background: #efefef;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .chats__name {
@@ -106,4 +105,8 @@
   font-size: 11px;
   font-weight: 500;
   line-height: 12px;
+}
+
+.chats__text-col {
+  flex-grow: 1;
 }
