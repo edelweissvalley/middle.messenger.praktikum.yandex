@@ -1,5 +1,3 @@
-import 'normalize.css';
-
 import { authController } from 'src/controllers/Auth.controller';
 import { chatsController } from 'src/controllers/Chats.controller';
 import { NotFoundPage } from 'src/pages/404';
@@ -10,7 +8,6 @@ import { PersonalPage } from 'src/pages/personal';
 import { RegistrationPage } from 'src/pages/registration';
 import { Paths, Router } from 'src/utils/Router';
 
-import './index.pcss';
 import './common.pcss';
 import './pages/error-pages.pcss';
 import './pages/small-form.pcss';
