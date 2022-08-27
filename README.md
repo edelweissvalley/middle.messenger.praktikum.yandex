@@ -2,7 +2,7 @@
 
 #### [-> Pull Request 'sprint_4'](https://github.com/edelweissvalley/middle.messenger.praktikum.yandex/pull/5)
 #### [-> Figma](https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/Chat?node-id=0%3A1)
-#### [-> Netlify](https://confident-euler-7e925a.netlify.app)
+#### [-> Netlify](https://deploy-preview-5--confident-euler-7e925a.netlify.app/auth)
 
 #### Команды
 

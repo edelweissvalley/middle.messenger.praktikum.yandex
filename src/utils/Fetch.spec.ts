@@ -9,10 +9,10 @@ export const httpTransport: Fetch = new Fetch();
 chai.use(deepEqualInAnyOrder);
 
 describe('<<<---FETCH--->>>', () => {
-  describe("Тест GET-запросы", () => {
-    beforeEach(() => mock.setup());
-    afterEach(() => mock.teardown());
+  beforeEach(() => mock.setup());
+  afterEach(() => mock.teardown());
 
+  describe("Тест GET-запросы", () => {
     it('Корректный GET-запрос', async () => {
       mock.get('/test/get', (req, res) => {
         expect(req.method()).to.equal('GET');
@@ -27,9 +27,6 @@ describe('<<<---FETCH--->>>', () => {
   });
 
   describe("Тест POST-запросы", () => {
-    beforeEach(() => mock.setup());
-    afterEach(() => mock.teardown());
-
     it('Корректность введённого метода', async () => {
       mock.post("/test/post", (req, res) => {
         expect(req.method()).to.equal("POST");
@@ -91,9 +88,6 @@ describe('<<<---FETCH--->>>', () => {
   });
 
   describe("Тест PUT-запросы", () => {
-    beforeEach(() => mock.setup());
-    afterEach(() => mock.teardown());
-
     it('Корректность введённого метода', async () => {
       mock.put("/test/put", (req, res) => {
         expect(req.method()).to.equal("PUT");
@@ -154,9 +148,6 @@ describe('<<<---FETCH--->>>', () => {
   });
 
   describe("Тест DELETE-запросы", () => {
-    beforeEach(() => mock.setup());
-    afterEach(() => mock.teardown());
-
     it('Корректность введённого метода', async () => {
       mock.delete("/test/delete", (req, res) => {
         expect(req.method()).to.equal("DELETE");
