@@ -1,5 +1,5 @@
-import { Component } from 'src/utils/Component';
-import { renderDOM } from 'src/utils/DOM';
+import { Component } from './Component';
+import { renderDOM } from './DOM';
 
 export enum Paths {
   core = '/',

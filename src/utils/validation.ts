@@ -11,7 +11,7 @@ export interface IValidationSchema {
   [key: string]: IValidationSchemaRules;
 }
 
-export function setValidationSchema<P>(
+export function setValidationSchema<P extends object>(
   children: P, validationSchema: IValidationSchema | null | undefined
 ): void {
   Object.entries(children).forEach(([, value]) => {
